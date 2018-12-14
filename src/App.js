@@ -32,7 +32,10 @@ class App extends Component {
     return (
       <div className="App">
       {/* One way to "bind" this to the event handler: give it an arrow function! */}
-      <button onClick={() => this.switchNameHandler("Hallo~~~") }> Switch Name </button>
+      <button className="btn btn-info" 
+              onClick={() => this.switchNameHandler("Hallo~~~") }> 
+        Switch Name 
+      </button>
         <Person name={this.state.persons[0].name} 
                 age={this.state.persons[0].age} 
                 click={this.switchNameHandler.bind(this, "CHANGED!")} /> 
