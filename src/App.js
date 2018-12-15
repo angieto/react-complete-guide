@@ -34,30 +34,31 @@ class App extends Component {
   }
 
   render() {
+    let persons = null;
+    if (this.state.showPerson) {
+      persons = (
+        <div>
+          <Person name={this.state.persons[0].name} 
+                  age={this.state.persons[0].age} 
+                  click={this.switchNameHandler.bind(this, "CHANGED!")} /> 
+          <Person name={this.state.persons[1].name} 
+                  age={this.state.persons[1].age} 
+                  changed={this.nameChangeHandler} />
+        </div>
+      )
+    }
     return (
       <div className="App">
       {/* One way to "bind" this to the event handler: give it an arrow function! */}
-      <button className="btn btn-info" 
-              onClick={() => this.switchNameHandler("Hallo~~~") }> 
-        Switch Name 
-      </button>
-      <button className="btn btn-danger"
-              onClick={this.togglePersonHandler}>
-        { this.state.showPerson? "Hide":"Show" }
-      </button>
-      {
-        this.state.showPerson ? 
-          <div>
-            <Person name={this.state.persons[0].name} 
-                    age={this.state.persons[0].age} 
-                    click={this.switchNameHandler.bind(this, "CHANGED!")} /> 
-                    {/* Pass the event handler to the Person component, using another "bind" method */}
-                    {/* As a result, when the user click this paragraph, its name property is changed */}
-            <Person name={this.state.persons[1].name} 
-                    age={this.state.persons[1].age} 
-                    changed={this.nameChangeHandler} />
-          </div> : null
-      }
+        <button className="btn btn-info" 
+                onClick={() => this.switchNameHandler("Hallo~~~") }> 
+          Switch Name 
+        </button>
+        <button className="btn btn-danger"
+                onClick={this.togglePersonHandler}>
+          { this.state.showPerson? "Hide":"Show" }
+        </button>
+        { persons }
       </div>
     );
   }
