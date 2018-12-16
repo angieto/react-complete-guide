@@ -2,10 +2,6 @@ import React from 'react';
 import './Person.css';
 
 const person = (props) => {
-    const random = Math.random();
-    if (random > 0.7) {
-        throw new Error("Oops, somethings's wrong with random");
-    }
 
     return (
         <div className="Person">
