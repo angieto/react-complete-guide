@@ -5,32 +5,39 @@ import Person from './components/Person/Person';
 class App extends Component {
   state = {
     persons: [
-      {name: 'Otter', age: 2},
-      {name: 'Cat', age: 3}
+      {id: 'unique1', name: 'Otter', age: 2},
+      {id: 'unique2', name: 'Cat', age: 3}
     ],
     showPerson: false
   }
 
   // methods
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        {name: newName, age: 2},
-        {name: 'Cat', age: 3}
-      ]
+  nameChangeHandler = (event, id) => {
+    // find the array index of the person with his/her id...
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     });
-  }
-  nameChangeHandler = (event) => {
-    this.setState({
-      persons: [
-        {name: 'Otter', age: 2},
-        {name: event.target.value, age: 3}
-      ]
-    })
+    // select the person from the array with the index found
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+    // assign the person's name as the target for the event handler
+    person.name = event.target.value;
+    // to avoid direct change, make a COPY of the original persons array
+    const persons = [...this.state.persons];
+    // and update the array persons once the selected person's name has changed
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons })
   }
   togglePersonHandler = () => {
     const doesShow = this.state.showPerson;
     this.setState({ showPerson: !doesShow });
+  }
+  deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons]; // make a copy of the old array
+    persons.splice(personIndex, 1); 
+    this.setState({ persons: persons })
   }
 
   render() {
@@ -38,20 +45,23 @@ class App extends Component {
     if (this.state.showPerson) {
       persons = (
         <div>
-          {/* .map() converts a JS array into an array of JSX */}
-          { this.state.persons.map(person => {
-              return <Person name={person.name} age={person.age} />
-          }) }
+          {/* .map() converts a JS array into an array of JSX elements */}
+          { this.state.persons.map( (person, index) => {
+              return <Person 
+                        key={person.id}
+                        name={person.name} 
+                        age={person.age} 
+                        click={() => this.deletePersonHandler(index)}
+                        changed = {(event) => this.nameChangeHandler(event, person.id)}  
+                      />
+            }) 
+          }
         </div>
       )
     }
     return (
       <div className="App">
       {/* One way to "bind" this to the event handler: give it an arrow function! */}
-        <button className="btn btn-info" 
-                onClick={() => this.switchNameHandler("Hallo~~~") }> 
-          Switch Name 
-        </button>
         <button className="btn btn-danger"
                 onClick={this.togglePersonHandler}>
           { this.state.showPerson? "Hide":"Show" }
