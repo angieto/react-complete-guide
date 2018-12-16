@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -30,7 +31,7 @@ class App extends Component {
     this.setState({ showPerson: !doesShow });
   }
   deletePersonHandler = (personIndex) => {
-    const persons = [...this.state.persons]; // make a copy of the old array
+    const persons = [...this.state.persons]; 
     persons.splice(personIndex, 1); 
     this.setState({ persons: persons })
   }
@@ -41,26 +42,18 @@ class App extends Component {
     if (this.state.showPerson) {
       persons = (
         <div>
-          {/* .map() converts a JS array into an array of JSX elements */}
-          { this.state.persons.map( (person, index) => {
-              return (<Person 
-                        key={person.id}
-                        name={person.name} 
-                        age={person.age} 
-                        click={() => this.deletePersonHandler(index)}
-                        changed = {(event) => this.nameChangeHandler(event, person.id)}  
-                      />) 
-            }) 
-          }
+          <Persons
+            persons={this.state.persons} 
+            clicked={this.deletePersonHandler} 
+            changed={this.nameChangeHandler}/>
         </div>
       )
     }
     return (
       <div className="App">
-        <button className="btn btn-danger" 
-                onClick={this.togglePersonHandler}>
-          { this.state.showPerson? "Hide":"Show" }
-        </button>
+        <Cockpit 
+          toggle={this.togglePersonHandler}
+          showPerson={this.state.showPerson} />
         { persons }
       </div>  
     );
