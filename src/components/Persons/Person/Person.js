@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Person.css';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 class Person extends Component {
     componentDidMount () {
@@ -13,9 +13,7 @@ class Person extends Component {
     render() {
         return (
             <div className="Person">
-                {/* No longer need this line thanks to Context API in App.js
-                    { this.props.authenticated ? <p className="text-info">I'm authenticated!</p> : null } 
-                */}
+                { this.props.authenticated ? <p className="text-info">I'm authenticated!</p> : null }
                 <p onClick={ this.props.click }>
                     I'm { this.props.name } and I'm { this.props.age } years old
                 </p>
