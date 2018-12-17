@@ -9,7 +9,8 @@ class App extends Component {
       {id: 'unique1', name: 'Otter', age: 2},
       {id: 'unique2', name: 'Cat', age: 3}
     ],
-    showPerson: false
+    showPerson: false,
+    toggleClicked: 0
   }
 
   componentWillMount () {
@@ -44,12 +45,17 @@ class App extends Component {
     person.name = event.target.value;
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-
     this.setState({ persons: persons })
   }
+  // A better way to handle state update: use prevState in a callback function
   togglePersonHandler = () => {
     const doesShow = this.state.showPerson;
-    this.setState({ showPerson: !doesShow });
+    this.setState( ( prevState, props ) => { 
+      return {
+        showPerson: !doesShow,
+        toggleClicked: prevState.toggleClicked + 1 // instead of this.state.toggledClicked + 1 
+      }
+    });
   }
   deletePersonHandler = (personIndex) => {
     const persons = [...this.state.persons]; 
