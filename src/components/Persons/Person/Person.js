@@ -3,6 +3,13 @@ import './Person.css';
 import PropTypes from 'prop-types'
 
 class Person extends Component {
+    componentDidMount () {
+        console.log( '[Person.js] inside componentDidMount()' );
+        if (this.props.position === 0) {
+            this.inputElement.focus();
+        }
+    }
+
     render() {
         return (
             <div className="Person">
@@ -10,7 +17,11 @@ class Person extends Component {
                     I'm { this.props.name } and I'm { this.props.age } years old
                 </p>
                 <p>{ this.props.children }</p>
-                <input type="text" onChange={ this.props.changed } value={ this.props.name } /> 
+                <input
+                    ref = { (input) => { this.inputElement = input } } 
+                    type="text" 
+                    onChange={ this.props.changed } 
+                    value={ this.props.name } /> 
             </div>
         );
     }  
